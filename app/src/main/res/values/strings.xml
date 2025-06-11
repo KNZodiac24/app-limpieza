@@ -6,4 +6,5 @@
     <string name="txtForgotPsw">¿Olvidó su contraseña?</string>
     <string name="txtBtnLogin">Iniciar Sesión</string>
     <string name="txtCreateAccount">¿No tienes cuenta todavía? Regístrate</string>
+    <string name="txtContinuar">Continuar    ➡ </string>
 </resources>
