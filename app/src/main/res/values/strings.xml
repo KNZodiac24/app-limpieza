@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AppLimpieza</string>
+    <string name="txtLogin">Inicio de Sesión</string>
+    <string name="txtHintEmailInput">Correo</string>
+    <string name="txtHintPswInput">Contraseña</string>
+    <string name="txtForgotPsw">¿Olvidó su contraseña?</string>
+    <string name="txtBtnLogin">Iniciar Sesión</string>
+    <string name="txtCreateAccount">¿No tienes cuenta todavía? Regístrate</string>
 </resources>
