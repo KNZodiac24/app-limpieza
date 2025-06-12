@@ -27,7 +27,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_image_placeholder"
             app:tint="#9E9E9E" />
 
         <!-- Ícono de cámara pequeño -->
