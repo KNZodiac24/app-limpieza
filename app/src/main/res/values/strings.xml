@@ -6,4 +6,17 @@
     <string name="txtForgotPsw">¿Olvidó su contraseña?</string>
     <string name="txtBtnLogin">Iniciar Sesión</string>
     <string name="txtCreateAccount">¿No tienes cuenta todavía? Regístrate</string>
+    <string name="txtRegistro">Crear Cuenta</string>
+    <string name="btnRegistrar">Registrarse</string>
+    <string name="txtHintConfPsw">Confirmar Contraseña</string>
+    <string name="txtHintNombre">Nombre</string>
+    <string name="chbxCondiciones">Al aceptar los términos y condiciones, usted está entrando en un contrato legalmente vinculante con el proveedor de servicios.</string>
+    <string name="txtRegQuestion">¿Ya tienes cuenta?</string>
+    <string name="error_nombre_required">El nombre es obligatorio</string>
+    <string name="error_email_required">El correo es obligatorio</string>
+    <string name="error_email_invalid">El correo no tiene un formato válido</string>
+    <string name="error_password_required">La contraseña es obligatoria</string>
+    <string name="error_confirmar_password_required">Debes confirmar la contraseña</string>
+    <string name="error_passwords_do_not_match">Las contraseñas no coinciden</string>
+    <string name="error_condiciones_required">Es necesario aceptar las politicas para continuar</string>
 </resources>
