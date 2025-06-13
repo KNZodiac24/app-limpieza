@@ -13,12 +13,14 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="80dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/titleAddImage"
         android:textSize="34sp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
@@ -33,9 +35,11 @@
 
     <LinearLayout
         android:id="@+id/layout_image_holder"
-        android:layout_width="333dp"
+        android:layout_width="0dp"
         android:layout_height="186dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/border_box"
         android:gravity="center"
         android:orientation="vertical"
@@ -53,9 +57,11 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="339dp"
-        android:layout_height="56dp"
+        android:id="@+id/btnContinuar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="108dp"
         android:backgroundTint="@color/secundario"
         android:drawableStart="@drawable/icon_arrow"

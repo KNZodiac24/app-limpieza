@@ -5,8 +5,16 @@
     <string name="txtHintPswInput">Contraseña</string>
     <string name="txtForgotPsw">¿Olvidó su contraseña?</string>
     <string name="txtBtnLogin">Iniciar Sesión</string>
-    <string name="txtCreateAccount">¿No tienes cuenta todavía? Regístrate</string>
+    <string name="txtCreateAccount">¿No tienes cuenta todavía?</string>
     <string name="txtContinuar">Continuar</string>
     <string name="titleAddImage">Añade fotos sobre tus servicios</string>
     <string name="descriptionAddTitle">Demuestra que realizas un excelente trabajo</string>
+    <string name="txtRegistro">Crear Cuenta</string>
+    <string name="txtHintNombre">Nombre</string>
+    <string name="txtHintConfPsw">Confirmar Contraseña</string>
+    <string name="chbxCondiciones">Al aceptar los términos y condiciones, usted está entrando en un contrato legalmente vinculante con el proveedor de servicios.</string>
+    <string name="btnRegistrar">Registrarse</string>
+    <string name="txtRegQuestion">¿Ya tienes cuenta?</string>
+    <string name="txtBtnRegistrar">Regístrate</string>
+    <string name="txtMensajeRegistro">Únase a nuestra comunidad y experimente una búsqueda fluida de su relación.</string>
 </resources>
