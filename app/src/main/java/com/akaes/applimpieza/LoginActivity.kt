@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var txtRegistrate: TextView
+    private lateinit var btnLogin: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +25,12 @@ class LoginActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.txtForgotPsw).setOnClickListener {
             val intent = Intent(this, RegistroActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnLogin = findViewById(R.id.btnLogin)
+        btnLogin.setOnClickListener {
+            val intent = Intent(this, DetalleActivity::class.java)
             startActivity(intent)
         }
 
