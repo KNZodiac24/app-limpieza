@@ -25,8 +25,8 @@ class UploadImageActivity : AppCompatActivity() {
         btnContinuar = findViewById(R.id.btnContinuar)
         btnContinuar.setOnClickListener {
             Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show()
-//            val intent = Intent(this, BienvenidoActivity::class.java)
-//            startActivity(intent)
+            val intent = Intent(this, DetalleActivity::class.java)
+            startActivity(intent)
         }
     }
 }

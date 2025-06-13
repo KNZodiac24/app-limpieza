@@ -17,4 +17,11 @@
     <string name="txtRegQuestion">¿Ya tienes cuenta?</string>
     <string name="txtBtnRegistrar">Regístrate</string>
     <string name="txtMensajeRegistro">Únase a nuestra comunidad y experimente una búsqueda fluida de su relación.</string>
+    <string name="txtBienvenido">¡Bienvenido, Angel!</string>
+    <string name="txtMensajeTrabajos">Tus trabajos:</string>
+    <string name="tabItPendientes">Pendientes</string>
+    <string name="tabItEnProceso">En proceso</string>
+    <string name="tabItCompletados">Completados</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
