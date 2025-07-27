@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Marco de la galería -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M3,3h18a1,1 0 0 1 1,1v16a1,1 0 0 1 -1,1H3a1,1 0 0 1 -1,-1V4a1,1 0 0 1 1,-1z"/>
+
+    <!-- Icono de imagen tachada (cruz diagonal) -->
+    <path
+        android:strokeColor="#9E9E9E"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M5,5 L19,19"/>
+    <path
+        android:strokeColor="#9E9E9E"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M19,5 L5,19"/>
+
+    <!-- Texto o símbolo opcional -->
+    <!-- Puedes agregar un ícono de advertencia, un signo de interrogación o dejarlo solo con la cruz -->
+</vector>

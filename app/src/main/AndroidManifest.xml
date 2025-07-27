@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Permisos para cámara y almacenamiento -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!-- Característica de cámara (opcional, pero recomendado) -->
-    <uses-feature android:name="android.hardware.camera"
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Característica de cámara (opcional, pero recomendado) -->
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus"
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
         android:required="false" />
 
     <application
@@ -23,7 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppLimpieza"
         tools:targetApi="31">
-        <!-- FileProvider para compartir archivos de forma segura -->
+        <activity
+            android:name=".ProviderGalleryActivity"
+            android:exported="false" /> <!-- FileProvider para compartir archivos de forma segura -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -33,6 +36,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity
             android:name=".DetalleActivity"
             android:exported="false" />

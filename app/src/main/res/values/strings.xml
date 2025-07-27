@@ -16,6 +16,11 @@
     <string name="btnRegistrar">Registrarse</string>
     <string name="txtRegQuestion">¿Ya tienes cuenta?</string>
     <string name="txtBtnRegistrar">Regístrate</string>
+    <string name="camera_permission_required">Se necesita permiso de cámara para tomar fotos</string>
+    <string name="image_picker_title">Seleccionar foto de perfil</string>
+    <string name="take_photo">Tomar foto</string>
+    <string name="select_from_gallery">Seleccionar de galería</string>
+    <string name="cancel">Cancelar</string>
     <string name="txtMensajeRegistro">Únase a nuestra comunidad y experimente una búsqueda fluida de su relación.</string>
     <string name="txtBienvenido">¡Bienvenido, Angel!</string>
     <string name="txtMensajeTrabajos">Tus trabajos:</string>

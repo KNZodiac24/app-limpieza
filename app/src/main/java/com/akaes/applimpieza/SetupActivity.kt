@@ -1,167 +1,120 @@
 package com.akaes.applimpieza
-
-import android.app.Activity
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
+import android.widget.*
+import java.util.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import android.widget.*
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
-import android.Manifest
-import android.graphics.Matrix
-import android.media.ExifInterface
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import com.akaes.applimpieza.databinding.ActivitySetupBinding
+import com.akaes.applimpieza.repository.FirebaseRepository
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.launch
+import java.io.File
+import java.text.SimpleDateFormat
 
 class SetupActivity : AppCompatActivity() {
-    private lateinit var btnContinuar: Button
-    // Views
-    private lateinit var frameProfileImage: FrameLayout
-    private lateinit var ivProfileImage: ImageView
-    private lateinit var etCelular: EditText
-    private lateinit var etDescripcion: EditText
+    private lateinit var binding: ActivitySetupBinding
+    private val repository = FirebaseRepository()
 
-    // Chips
-    private lateinit var chipInstalacion: TextView
-    private lateinit var chipLimpieza: TextView
-    private lateinit var chipDecoracion: TextView
-    private lateinit var chipReparacion: TextView
-
-    // Variables para la imagen
+    private var userId: String = ""
+    private var selectedImageUri: Uri? = null
+    private var selectedServices: MutableSet<String> = mutableSetOf()
     private var currentPhotoPath: String = ""
-    private var imageUri: Uri? = null
 
-    // Request codes
-    companion object {
-        private const val CAMERA_PERMISSION_REQUEST = 100
-        private const val STORAGE_PERMISSION_REQUEST = 101
-    }
-
-    // ActivityResultLaunchers
-    private val takePictureLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // La imagen se guardó en currentPhotoPath
-            android.util.Log.d("SetupActivity", "Foto tomada exitosamente")
-            loadImageFromFile()
-        }else {
-            android.util.Log.d("SetupActivity", "Foto cancelada o falló")
-            Toast.makeText(this, "Foto cancelada", Toast.LENGTH_SHORT).show()
+    // Launcher para seleccionar imagen de galería
+    private val galleryLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            selectedImageUri = it
+            displaySelectedImage(it)
         }
     }
 
-    private val pickImageLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { uri ->
-                try {
-                    val inputStream = contentResolver.openInputStream(uri)
-                    val bitmap = BitmapFactory.decodeStream(inputStream)
-                    bitmap?.let { originalBitmap ->
-                        // Crear imagen circular ajustada (sin rotación EXIF para galería)
-                        val circularBitmap = createCircularImage(originalBitmap, 200)
-                        ivProfileImage.setImageBitmap(circularBitmap)
-                        imageUri = uri
-                        Toast.makeText(this, "¡Imagen seleccionada correctamente!", Toast.LENGTH_SHORT).show()
-                    }
-                } catch (e: Exception) {
-                    Toast.makeText(this, "Error al cargar imagen de galería", Toast.LENGTH_SHORT).show()
-                    android.util.Log.e("SetupActivity", "Error al cargar de galería", e)
-                }
-            }
-        }else {
-            Toast.makeText(this, "Selección de imagen cancelada", Toast.LENGTH_SHORT).show()
+    // Launcher para tomar foto con cámara
+    private val cameraLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success: Boolean ->
+        if (success) {
+            selectedImageUri = Uri.fromFile(File(currentPhotoPath))
+            displaySelectedImage(selectedImageUri!!)
+        }
+    }
+
+    // Launcher para permisos de cámara
+    private val cameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            openCamera()
+        } else {
+            showError("Se necesita permiso de cámara para tomar fotos")
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_setup)
-        initViews()
-        setupClickListeners()
-        setupChips()
+        binding = ActivitySetupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        btnContinuar = findViewById(R.id.btnContinuar)
-        btnContinuar.setOnClickListener {
-            val intent = Intent(this, UploadImageActivity::class.java)
-            startActivity(intent)
+        // ✨ Inicializar Cloudinary ANTES de todo
+        println("DEBUG: 🚀 Inicializando Cloudinary en SetupActivity...")
+        repository.initializeCloudinary(this)
+
+        // Obtener userId del intent
+        userId = intent.getStringExtra("userId") ?: repository.getCurrentUserId() ?: ""
+
+        if (userId.isEmpty()) {
+            showError("Error: Usuario no encontrado")
+            finish()
+            return
         }
-    }
-    private fun initViews() {
-        frameProfileImage = findViewById(R.id.frameProfileImage)
-        ivProfileImage = findViewById(R.id.ivProfileImage)
-        etCelular = findViewById(R.id.etCelular)
-        etDescripcion = findViewById(R.id.etDescripcion)
-        btnContinuar = findViewById(R.id.btnContinuar)
 
-        // Chips
-        chipInstalacion = findViewById(R.id.chipInstalacion)
-        chipLimpieza = findViewById(R.id.chipLimpieza)
-        chipDecoracion = findViewById(R.id.chipDecoracion)
-        chipReparacion = findViewById(R.id.chipReparacion)
-
-        // Establecer imagen por defecto
-        ivProfileImage.setImageResource(R.drawable.ic_camera_small)
-
+        setupUI()
+        setupListeners()
+        loadUserInfo()
     }
 
-    private fun setupClickListeners() {
-        frameProfileImage.setOnClickListener {
+    private fun setupUI() {
+        // Los chips empiezan sin seleccionar (según tu XML, "Instalación" viene seleccionado)
+        selectedServices.add("Instalacion") // Instalación viene seleccionado por defecto
+        updateChipAppearance()
+    }
+
+    private fun setupListeners() {
+        // Seleccionar foto de perfil - mostrar opciones
+        binding.frameProfileImage.setOnClickListener {
             showImagePickerDialog()
         }
 
-        btnContinuar.setOnClickListener {
-            if (validateForm()) {
-                saveUserData()
-            }
-        }
-        // Click largo en la imagen para mostrar info de debugging
-        frameProfileImage.setOnLongClickListener {
-            showImageInfo()
-            true
-        }
-    }
+        // Chips de especialización
+        binding.chipInstalacion.setOnClickListener { toggleChip("Instalacion", binding.chipInstalacion) }
+        binding.chipLimpieza.setOnClickListener { toggleChip("Limpieza", binding.chipLimpieza) }
+        binding.chipDecoracion.setOnClickListener { toggleChip("Decoracion", binding.chipDecoracion) }
+        binding.chipReparacion.setOnClickListener { toggleChip("Reparacion", binding.chipReparacion) }
 
-    private fun setupChips() {
-        val chips = listOf(chipInstalacion, chipLimpieza, chipDecoracion, chipReparacion)
-
-        chips.forEach { chip ->
-            chip.setOnClickListener {
-                selectChip(chip, chips)
-            }
-        }
-    }
-
-    private fun selectChip(selectedChip: TextView, allChips: List<TextView>) {
-        allChips.forEach { chip ->
-            if (chip == selectedChip) {
-                chip.setBackgroundResource(R.drawable.chip_background_selected)
-                chip.setTextColor(ContextCompat.getColor(this, android.R.color.white))
-            } else {
-                chip.setBackgroundResource(R.drawable.chip_background_unselected)
-                chip.setTextColor(ContextCompat.getColor(this, R.color.primario))
-            }
+        // Botón continuar
+        binding.btnContinuar.setOnClickListener {
+            completeProviderProfile()
         }
     }
 
@@ -169,75 +122,52 @@ class SetupActivity : AppCompatActivity() {
         val options = arrayOf("Tomar foto", "Seleccionar de galería", "Cancelar")
 
         AlertDialog.Builder(this)
-            .setTitle("Seleccionar imagen de perfil")
+            .setTitle("Seleccionar foto de perfil")
             .setItems(options) { dialog, which ->
                 when (which) {
-                    0 -> checkCameraPermission()
-                    1 -> checkStoragePermission()
+                    0 -> checkCameraPermissionAndOpen()
+                    1 -> openGallery()
                     2 -> dialog.dismiss()
                 }
             }
             .show()
     }
 
-    private fun checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(
+    private fun checkCameraPermissionAndOpen() {
+        when {
+            ContextCompat.checkSelfPermission(
                 this,
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_REQUEST
-            )
-        } else {
-            openCamera()
-        }
-    }
-
-    private fun checkStoragePermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                STORAGE_PERMISSION_REQUEST
-            )
-        } else {
-            openGallery()
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                openCamera()
+            }
+            else -> {
+                cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
         }
     }
 
     private fun openCamera() {
         try {
             val photoFile = createImageFile()
-            imageUri = FileProvider.getUriForFile(
+            selectedImageUri = FileProvider.getUriForFile(
                 this,
-                "${packageName}.fileprovider",
+                "${applicationContext.packageName}.fileprovider",
                 photoFile
             )
-
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-                putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-            }
-
-            takePictureLauncher.launch(takePictureIntent)
-
-        } catch (ex: IOException) {
-            Toast.makeText(this, "Error al crear archivo de imagen", Toast.LENGTH_SHORT).show()
+            cameraLauncher.launch(selectedImageUri)
+        } catch (e: Exception) {
+            showError("Error al abrir la cámara: ${e.message}")
         }
     }
 
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        pickImageLauncher.launch(intent)
+        galleryLauncher.launch("image/*")
     }
 
-    @Throws(IOException::class)
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File? = getExternalFilesDir("Pictures")
-
+        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
             "JPEG_${timeStamp}_",
             ".jpg",
@@ -247,230 +177,273 @@ class SetupActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadImageFromFile() {
+    private fun cleanupTempFile() {
         if (currentPhotoPath.isNotEmpty()) {
             try {
-                // Cargar la imagen
-                val bitmap = BitmapFactory.decodeFile(currentPhotoPath)
-                bitmap?.let { originalBitmap ->
-                    // Corregir orientación usando EXIF
-                    val correctedBitmap = rotateImageIfRequired(originalBitmap, currentPhotoPath)
-
-                    // Crear imagen circular ajustada
-                    val circularBitmap = createCircularImage(correctedBitmap, 200) // Tamaño fijo
-
-                    // Mostrar en ImageView
-                    ivProfileImage.setImageBitmap(circularBitmap)
-
-                    Toast.makeText(this, "¡Imagen cargada correctamente!", Toast.LENGTH_SHORT).show()
-                    android.util.Log.d("SetupActivity", "Imagen cargada y procesada desde: $currentPhotoPath")
-                } ?: run {
-                    Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show()
-                    android.util.Log.e("SetupActivity", "No se pudo decodificar la imagen")
+                val file = File(currentPhotoPath)
+                if (file.exists()) {
+                    file.delete()
+                    println("DEBUG: Archivo temporal eliminado: $currentPhotoPath")
                 }
             } catch (e: Exception) {
-                Toast.makeText(this, "Error al procesar la imagen: ${e.message}", Toast.LENGTH_SHORT).show()
-                android.util.Log.e("SetupActivity", "Error al cargar imagen", e)
+                println("DEBUG: Error eliminando archivo temporal: ${e.message}")
             }
         }
     }
-    // Método para corregir la rotación de la imagen según EXIF
-    private fun rotateImageIfRequired(bitmap: Bitmap, imagePath: String): Bitmap {
-        try {
-            val exif = ExifInterface(imagePath)
-            val orientation = exif.getAttributeInt(
-                ExifInterface.TAG_ORIENTATION,
-                ExifInterface.ORIENTATION_UNDEFINED
-            )
 
-            return when (orientation) {
-                ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90f)
-                ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180f)
-                ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270f)
-                else -> bitmap
+    override fun onDestroy() {
+        super.onDestroy()
+        cleanupTempFile()
+    }
+
+    private fun displaySelectedImage(imageUri: Uri) {
+        Glide.with(this@SetupActivity)
+            .load(imageUri)
+            .circleCrop()
+            .placeholder(R.drawable.ic_image_placeholder) // Asegúrate de tener este drawable
+            .error(R.drawable.ic_image_error)
+            .into(binding.ivProfileImage)
+    }
+
+    private fun loadUserInfo() {
+        lifecycleScope.launch {
+            repository.getUser(userId)
+                .onSuccess { user ->
+                    user?.let {
+                        binding.tvSaludo.text = "Hola, ${it.name}"
+
+                        // Cargar foto de perfil si existe
+                        if (it.photoUrl.isNotEmpty()) {
+                            Glide.with(this@SetupActivity)
+                                .load(it.photoUrl)
+                                .circleCrop()
+                                .placeholder(R.drawable.ic_image_placeholder)
+                                .error(R.drawable.ic_image_error)
+                                .into(binding.ivProfileImage)
+                        }
+                    }
+                }
+                .onFailure { exception ->
+                    showError("Error al cargar información del usuario: ${exception.message}")
+                }
+        }
+    }
+
+    private fun toggleChip(service: String, chipView: TextView) {
+        if (selectedServices.contains(service)) {
+            selectedServices.remove(service)
+        } else {
+            selectedServices.add(service)
+        }
+        updateChipAppearance()
+    }
+
+    private fun updateChipAppearance() {
+        // Actualizar apariencia de cada chip
+        updateSingleChip(binding.chipInstalacion, "Instalacion")
+        updateSingleChip(binding.chipLimpieza, "Limpieza")
+        updateSingleChip(binding.chipDecoracion, "Decoracion")
+        updateSingleChip(binding.chipReparacion, "Reparacion")
+    }
+
+    private fun updateSingleChip(chipView: TextView, service: String) {
+        if (selectedServices.contains(service)) {
+            // Chip seleccionado
+            chipView.setBackgroundResource(R.drawable.chip_background_selected)
+            chipView.setTextColor(resources.getColor(android.R.color.white, null))
+        } else {
+            // Chip no seleccionado
+            chipView.setBackgroundResource(R.drawable.chip_background_unselected)
+            chipView.setTextColor(resources.getColor(android.R.color.darker_gray, null))
+        }
+    }
+
+    private fun completeProviderProfile() {
+        val phone = binding.etCelular.text.toString().trim()
+        val description = binding.etDescripcion.text.toString().trim()
+
+        // Validaciones
+        if (!validateInputs(phone, description)) {
+            return
+        }
+
+        showLoading(true)
+
+        lifecycleScope.launch {
+            try {
+                var photoUploadSuccess = true
+                var newPhotoUrl = ""
+
+                // 1. Subir nueva foto de perfil si se seleccionó una
+                if (selectedImageUri != null) {
+                    // Verificar que la URI sea válida
+                    if (!isValidImageUri(selectedImageUri!!)) {
+                        showLoading(false)
+                        showError("Error: La imagen seleccionada no es válida")
+                        return@launch
+                    }
+
+                    println("DEBUG: Intentando subir imagen con URI: $selectedImageUri")
+
+                    repository.uploadProfilePhoto(userId, selectedImageUri!!)
+                        .onSuccess { url ->
+                            newPhotoUrl = url
+                            println("DEBUG: Imagen subida exitosamente. URL: $url")
+
+                            // Actualizar URL de foto en el documento de usuario
+                            repository.updateUserPhoto(userId, url)
+                                .onFailure { exception ->
+                                    println("DEBUG: Error actualizando foto en usuario: ${exception.message}")
+                                    showError("Advertencia: Error al actualizar foto en perfil de usuario")
+                                    // No detener el proceso por esto
+                                }
+                        }
+                        .onFailure { exception ->
+                            println("DEBUG: Error subiendo imagen: ${exception.message}")
+                            photoUploadSuccess = false
+
+                            // Mostrar error específico pero continuar sin imagen
+                            showError("No se pudo subir la imagen, continuando sin foto de perfil")
+
+                            // Opcional: Continuar sin imagen o detener el proceso
+                            // Descomenta la siguiente línea si quieres detener el proceso
+                            // showLoading(false)
+                            // return@launch
+                        }
+                }
+
+                // 2. Actualizar información del proveedor (siempre continuar)
+                println("DEBUG: Actualizando información del proveedor...")
+
+                repository.updateProviderInfo(
+                    userId = userId,
+                    phone = phone,
+                    description = description,
+                    serviceTypes = selectedServices.toList()
+                )
+                    .onSuccess {
+                        showLoading(false)
+                        val message = if (photoUploadSuccess && selectedImageUri != null) {
+                            "¡Perfil completado exitosamente!"
+                        } else if (selectedImageUri != null) {
+                            "Perfil completado, pero no se pudo subir la imagen"
+                        } else {
+                            "¡Perfil completado exitosamente!"
+                        }
+                        showSuccess(message)
+                        navigateToProviderHome()
+                    }
+                    .onFailure { exception ->
+                        showLoading(false)
+                        showError("Error al completar perfil: ${exception.message}")
+                        println("DEBUG: Error actualizando proveedor: ${exception.message}")
+                    }
+
+            } catch (e: Exception) {
+                showLoading(false)
+                showError("Error inesperado: ${e.message}")
+                println("DEBUG: Error inesperado: ${e.message}")
+                e.printStackTrace()
             }
+        }
+    }
+
+    private fun isValidImageUri(uri: Uri): Boolean {
+        return try {
+            val inputStream = contentResolver.openInputStream(uri)
+            inputStream?.use {
+                it.available() > 0
+            } ?: false
         } catch (e: Exception) {
-            android.util.Log.e("SetupActivity", "Error al leer EXIF", e)
-            return bitmap
+            println("DEBUG: Error validando URI: ${e.message}")
+            false
         }
     }
-    // Método mejorado para crear imagen circular perfectamente ajustada
-    private fun createCircularImage(bitmap: Bitmap, targetSize: Int): Bitmap {
-        // Crear bitmap cuadrado escalado
-        val squareBitmap = createSquareBitmap(bitmap, targetSize)
 
-        // Crear bitmap circular
-        val output = Bitmap.createBitmap(targetSize, targetSize, Bitmap.Config.ARGB_8888)
-        val canvas = android.graphics.Canvas(output)
+    private fun validateInputs(phone: String, description: String): Boolean {
+        // Limpiar errores previos
+        binding.etCelular.error = null
+        binding.etDescripcion.error = null
 
-        val paint = android.graphics.Paint().apply {
-            isAntiAlias = true
-            isFilterBitmap = true
-            isDither = true
-        }
-
-        val rect = android.graphics.Rect(0, 0, targetSize, targetSize)
-        val rectF = android.graphics.RectF(rect)
-        val radius = targetSize / 2f
-
-        // Dibujar círculo
-        canvas.drawARGB(0, 0, 0, 0)
-        canvas.drawCircle(radius, radius, radius, paint)
-
-        // Aplicar máscara circular
-        paint.xfermode = android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(squareBitmap, rect, rect, paint)
-
-        return output
-    }
-    // Método para rotar imagen
-    private fun rotateImage(bitmap: Bitmap, degrees: Float): Bitmap {
-        val matrix = Matrix().apply {
-            postRotate(degrees)
-        }
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    }
-    // Crear bitmap cuadrado centrado y escalado
-    private fun createSquareBitmap(bitmap: Bitmap, targetSize: Int): Bitmap {
-        val size = Math.min(bitmap.width, bitmap.height)
-
-        // Recortar al centro para hacer cuadrado
-        val x = (bitmap.width - size) / 2
-        val y = (bitmap.height - size) / 2
-        val squareBitmap = Bitmap.createBitmap(bitmap, x, y, size, size)
-
-        // Escalar al tamaño objetivo
-        return Bitmap.createScaledBitmap(squareBitmap, targetSize, targetSize, true)
-    }
-
-
-    private fun validateForm(): Boolean {
-        val celular = etCelular.text.toString().trim()
-        val descripcion = etDescripcion.text.toString().trim()
-
-        if (celular.isEmpty()) {
-            etCelular.error = "El número de celular es requerido"
+        // Validar teléfono
+        if (phone.isEmpty()) {
+            binding.etCelular.error = "El número de celular es requerido"
+            binding.etCelular.requestFocus()
             return false
         }
 
-        if (descripcion.isEmpty()) {
-            etDescripcion.error = "La descripción es requerida"
+        if (phone.length < 8) {
+            binding.etCelular.error = "Número de teléfono inválido"
+            binding.etCelular.requestFocus()
             return false
         }
 
-        if (imageUri == null && currentPhotoPath.isEmpty()) {
-            Toast.makeText(this, "Por favor selecciona una imagen de perfil", Toast.LENGTH_SHORT).show()
+        // Validar que solo contenga números
+        if (!phone.matches(Regex("^[0-9]+$"))) {
+            binding.etCelular.error = "El teléfono solo debe contener números"
+            binding.etCelular.requestFocus()
+            return false
+        }
+
+        // Validar descripción
+        if (description.isEmpty()) {
+            binding.etDescripcion.error = "La descripción es requerida"
+            binding.etDescripcion.requestFocus()
+            return false
+        }
+
+        if (description.length < 20) {
+            binding.etDescripcion.error = "La descripción debe tener al menos 20 caracteres"
+            binding.etDescripcion.requestFocus()
+            return false
+        }
+
+        if (description.length > 500) {
+            binding.etDescripcion.error = "La descripción no puede exceder 500 caracteres"
+            binding.etDescripcion.requestFocus()
+            return false
+        }
+
+        // Validar especialización
+        if (selectedServices.isEmpty()) {
+            Toast.makeText(this, "Selecciona al menos una especialización", Toast.LENGTH_LONG).show()
             return false
         }
 
         return true
     }
 
-    private fun saveUserData() {
-        // Aquí puedes guardar los datos del usuario
-        val celular = etCelular.text.toString().trim()
-        val descripcion = etDescripcion.text.toString().trim()
-        val especialización = getSelectedSpecialization()
+    private fun showLoading(show: Boolean) {
+        binding.btnContinuar.isEnabled = !show
+        binding.frameProfileImage.isEnabled = !show
+        binding.etCelular.isEnabled = !show
+        binding.etDescripcion.isEnabled = !show
 
-        // Guardar en SharedPreferences o base de datos
-        val sharedPrefs = getSharedPreferences("user_profile", MODE_PRIVATE)
-        with(sharedPrefs.edit()) {
-            putString("celular", celular)
-            putString("descripcion", descripcion)
-            putString("especializacion", especialización)
-            putString("profile_image_path", currentPhotoPath)
-            putString("profile_image_uri", imageUri?.toString())
-            apply()
-        }
+        // Deshabilitar chips durante carga
+        binding.chipInstalacion.isEnabled = !show
+        binding.chipLimpieza.isEnabled = !show
+        binding.chipDecoracion.isEnabled = !show
+        binding.chipReparacion.isEnabled = !show
 
-        Toast.makeText(this, "Perfil guardado exitosamente", Toast.LENGTH_SHORT).show()
-
-        // Continuar a la siguiente actividad
-        // startActivity(Intent(this, NextActivity::class.java))
-        // finish()
-    }
-
-    private fun getSelectedSpecialization(): String {
-        return when {
-            chipInstalacion.currentTextColor == ContextCompat.getColor(this, android.R.color.white) -> "Instalación"
-            chipLimpieza.currentTextColor == ContextCompat.getColor(this, android.R.color.white) -> "Limpieza"
-            chipDecoracion.currentTextColor == ContextCompat.getColor(this, android.R.color.white) -> "Decoración"
-            chipReparacion.currentTextColor == ContextCompat.getColor(this, android.R.color.white) -> "Reparación"
-            else -> "Instalación" // Por defecto
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        when (requestCode) {
-            CAMERA_PERMISSION_REQUEST -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openCamera()
-                } else {
-                    Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
-                }
-            }
-            STORAGE_PERMISSION_REQUEST -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openGallery()
-                } else {
-                    Toast.makeText(this, "Permiso de almacenamiento denegado", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-    // Método para recuperar la imagen guardada (para usar en otras actividades)
-    fun getProfileImage(): Bitmap? {
-        val sharedPrefs = getSharedPreferences("user_profile", MODE_PRIVATE)
-        val imagePath = sharedPrefs.getString("profile_image_path", "")
-
-        return if (!imagePath.isNullOrEmpty()) {
-            BitmapFactory.decodeFile(imagePath)
+        if (show) {
+            binding.btnContinuar.text = "Completando perfil..."
         } else {
-            val imageUriString = sharedPrefs.getString("profile_image_uri", "")
-            if (!imageUriString.isNullOrEmpty()) {
-                try {
-                    val inputStream = contentResolver.openInputStream(Uri.parse(imageUriString))
-                    BitmapFactory.decodeStream(inputStream)
-                } catch (e: Exception) {
-                    null
-                }
-            } else {
-                null
-            }
+            binding.btnContinuar.text = getString(R.string.txtContinuar)
         }
     }
-    // Función para mostrar información de debugging
-    private fun showImageInfo() {
-        val info = buildString {
-            appendLine("=== INFO DE IMAGEN ===")
-            appendLine("Ruta: $currentPhotoPath")
-            appendLine("URI: $imageUri")
-            appendLine("Existe: ${if (currentPhotoPath.isNotEmpty()) File(currentPhotoPath).exists() else "N/A"}")
-            appendLine("Tamaño: ${if (currentPhotoPath.isNotEmpty()) File(currentPhotoPath).length() else "N/A"} bytes")
 
-            // Mostrar ruta del directorio de Pictures
-            val picturesDir = getExternalFilesDir("Pictures")
-            appendLine("Dir Pictures: ${picturesDir?.absolutePath}")
-            appendLine("Dir existe: ${picturesDir?.exists()}")
-        }
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
 
-        AlertDialog.Builder(this)
-            .setTitle("Info de Imagen")
-            .setMessage(info)
-            .setPositiveButton("Copiar ruta") { _, _ ->
-                val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                val clip = android.content.ClipData.newPlainText("Ruta imagen", currentPhotoPath)
-                clipboard.setPrimaryClip(clip)
-                Toast.makeText(this, "Ruta copiada al portapapeles", Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton("Cerrar", null)
-            .show()
+    private fun showSuccess(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToProviderHome() {
+        val intent = Intent(this, UploadImageActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }
