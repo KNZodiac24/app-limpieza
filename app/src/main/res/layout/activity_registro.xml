@@ -23,22 +23,25 @@
 
     <TextView
         android:id="@+id/txtMensaje"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
-        android:text="Únase a nuestra comunidad y experimente una búsqueda fluida de su relación."
+        android:layout_marginEnd="24dp"
+        android:text="@string/txtMensajeRegistro"
         android:textColor="#A0000000"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtRegistro" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtNombreLayout"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
         android:hint="@string/txtHintNombre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -54,9 +57,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtCorreoLayout"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="24dp"
         android:hint="@string/txtHintEmailInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -73,9 +78,11 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtContrasenaLayout"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="24dp"
         android:hint="@string/txtHintPswInput"
         app:boxBackgroundMode="outline"
         app:endIconMode="password_toggle"
@@ -94,9 +101,11 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtConfirmarContrasenaLayout"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="24dp"
         android:hint="@string/txtHintConfPsw"
         app:boxBackgroundMode="outline"
         app:endIconMode="password_toggle"
@@ -114,10 +123,13 @@
 
     <CheckBox
         android:id="@+id/chbxCondiciones"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="15dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/chbxCondiciones"
+        android:textSize="14dp"
         app:checkedState="unchecked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -126,42 +138,85 @@
 
     <Button
         android:id="@+id/btnRegistrar"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/secundario"
         android:text="@string/btnRegistrar"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chbxCondiciones" />
 
-    <LinearLayout
-        android:layout_width="360dp"
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginTop="15dp"-->
+    <!--        android:layout_marginEnd="20dp"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/btnRegistrar">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/txtRegQuestion"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:gravity="center|right"-->
+    <!--            android:text="@string/txtRegQuestion"-->
+    <!--            android:textSize="16dp" />-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/btnLogin"-->
+    <!--            style="@style/Widget.Material3.Button.TextButton"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:gravity="left"-->
+    <!--            android:text="@string/txtBtnLogin"-->
+    <!--            android:textSize="16dp" />-->
+
+    <!--    </LinearLayout>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerBottom"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="83dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="83dp"
-        android:orientation="horizontal"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegistrar">
+        app:layout_constraintTop_toBottomOf="@id/btnRegistrar">
 
         <TextView
             android:id="@+id/txtRegQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|right"
-            android:text="@string/txtRegQuestion" />
+            android:text="@string/txtRegQuestion"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txtLogin"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnLogin"
-            style="@style/Widget.Material3.Button.TextButton"
+        <TextView
+            android:id="@+id/txtLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:text="@string/txtBtnLogin" />
-
-    </LinearLayout>
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="8dp"
+            android:text="@string/txtBtnLogin"
+            android:textColor="@color/primario"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/txtRegQuestion"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

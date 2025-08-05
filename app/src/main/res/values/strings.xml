@@ -5,7 +5,7 @@
     <string name="txtHintPswInput">Contraseña</string>
     <string name="txtForgotPsw">¿Olvidó su contraseña?</string>
     <string name="txtBtnLogin">Iniciar Sesión</string>
-    <string name="txtCreateAccount">¿No tienes cuenta todavía? Regístrate</string>
+    <string name="txtCreateAccount">¿No tienes cuenta todavía?</string>
     <string name="txtRegistro">Crear Cuenta</string>
     <string name="btnRegistrar">Registrarse</string>
     <string name="txtHintConfPsw">Confirmar Contraseña</string>
@@ -19,4 +19,6 @@
     <string name="error_confirmar_password_required">Debes confirmar la contraseña</string>
     <string name="error_passwords_do_not_match">Las contraseñas no coinciden</string>
     <string name="error_condiciones_required">Es necesario aceptar las politicas para continuar</string>
+    <string name="txtBtnRegistrar">Regístrate</string>
+    <string name="txtMensajeRegistro">Únase a nuestra comunidad y experimente una búsqueda fluida de su relación.</string>
 </resources>
