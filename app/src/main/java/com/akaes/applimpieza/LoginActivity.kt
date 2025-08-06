@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.util.Patterns
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -44,6 +44,26 @@ class LoginActivity : AppCompatActivity() {
 
         // Inicializar Firebase Auth
         auth = Firebase.auth
+
+        // Configurar accion al presionar enter en el campo de email
+        txtEmail.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                txtContrasena.requestFocus()
+                true
+            } else {
+                false
+            }
+        }
+
+        // Configurar accion al presionar enter en el campo de contrasena
+        txtContrasena.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                btnLogin.performClick()
+                true
+            } else {
+                false
+            }
+        }
 
         // Recuperar contrasena
         txtForgotPsw.setOnClickListener {
@@ -144,7 +164,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun enviarCorreoRecuperacion(email: String) {
         if (email.isEmpty()) {
-            Toast.makeText(this, getString(R.string.error_email_required), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_email_required), Toast.LENGTH_SHORT)
+                .show()
             return
         }
 

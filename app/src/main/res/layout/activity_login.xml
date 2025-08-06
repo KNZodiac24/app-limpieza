@@ -35,8 +35,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -58,20 +59,9 @@
             android:id="@+id/txtContrasena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    <Button-->
-    <!--        android:id="@+id/btnForgotPsw"-->
-    <!--        style="@style/Widget.Material3.Button.TextButton"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="24dp"-->
-    <!--        android:layout_marginTop="28dp"-->
-    <!--        android:text="@string/txtForgotPsw"-->
-    <!--        android:textSize="16dp"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/tfPswLogin" />-->
 
     <TextView
         android:id="@+id/txtForgotPsw"
@@ -102,26 +92,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtForgotPsw" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/txtCreateAccount"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="44dp"-->
-    <!--        android:fontFamily="@font/roboto"-->
-    <!--        android:text="@string/txtCreateAccount"-->
-    <!--        android:textColor="@color/primario"-->
-    <!--        android:textSize="16sp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />-->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerBottom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
         android:layout_marginTop="44dp"
+        android:layout_marginEnd="24dp"
         android:foregroundGravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -138,17 +115,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--        <Button-->
-        <!--            android:id="@+id/btnRegistrar"-->
-        <!--            style="@style/Widget.Material3.Button.TextButton"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="@string/txtBtnRegistrar"-->
-        <!--            android:textSize="16sp"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toEndOf="@id/txtRegQuestion"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
         <TextView
             android:id="@+id/txtRegistrate"
             android:layout_width="wrap_content"
