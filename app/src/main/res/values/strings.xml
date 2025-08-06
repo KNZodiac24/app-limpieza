@@ -23,4 +23,11 @@
     <string name="txtMensajeRegistro">Únase a nuestra comunidad y experimente una búsqueda fluida de su relación.</string>
     <string name="txtBtnEnviar">Enviar</string>
     <string name="txtMessage">Mensaje</string>
+    <string name="error_password_min_length">La contraseña debe tener mínimo 8 caracteres</string>
+    <string name="login_failed">Login Fallido</string>
+    <string name="loading_login_message">Iniciando sesión</string>
+    <string name="sending_reset_email">Procesando recuperación de contraseña</string>
+    <string name="reset_password_title">Recuperar Contraseña</string>
+    <string name="txt_enviar">Enviar</string>
+    <string name="txt_cancelar">Cancelar</string>
 </resources>

@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtMensaje">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtNombre"
+            android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
