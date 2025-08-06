@@ -97,8 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/secundario"
-                        android:text="Contactar"
-                        app:icon="@drawable/whatsapp" />
+                        android:text="Contactar" />
 
                     <Space
                         android:layout_width="wrap_content"

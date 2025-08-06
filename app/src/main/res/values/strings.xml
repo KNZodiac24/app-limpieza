@@ -21,4 +21,6 @@
     <string name="error_condiciones_required">Es necesario aceptar las politicas para continuar</string>
     <string name="txtBtnRegistrar">Regístrate</string>
     <string name="txtMensajeRegistro">Únase a nuestra comunidad y experimente una búsqueda fluida de su relación.</string>
+    <string name="txtBtnEnviar">Enviar</string>
+    <string name="txtMessage">Mensaje</string>
 </resources>
