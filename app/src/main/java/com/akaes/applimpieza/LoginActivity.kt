@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         // Inicializar variables
-        txtEmail = findViewById(R.id.txtEmail)
+        txtEmail = findViewById(R.id.txtNombre)
         txtContrasena = findViewById(R.id.txtContrasena)
         txtForgotPsw = findViewById(R.id.txtForgotPsw)
         txtRegistrate = findViewById(R.id.txtRegistrate)

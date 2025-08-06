@@ -1,4 +1,7 @@
 package com.akaes.applimpieza
 
 const val EXTRA_LOGIN = "EXTRA_LOGIN"
+const val EXTRA_SIGNUP = "EXTRA_SIGNUP"
+const val UPDATE_PROFILE = "UPDATE_PROFILE"
+const val ERROR_UPDATE_PROFILE = "ERROR_UPDATE_PROFILE"
 const val MIN_PASSWORD_LENGTH = 8

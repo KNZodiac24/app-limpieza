@@ -9,16 +9,17 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.Material3.ActionBar">
 
-        <Button
-            android:id="@+id/btnBack"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/secundario" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:navigationIconTint="@color/secundario"
+            app:title="@string/perfil" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -192,7 +193,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/textView10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Soy una persona muy trabajadora y me gustan las empanadas de verde 🥟"
@@ -313,14 +314,14 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView11"
+                                android:id="@+id/textView13"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Arnold Prohaska"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/textView12"
+                                android:id="@+id/textView14"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Me gustó su trabajo" />
@@ -333,7 +334,7 @@
                             android:layout_weight="1" />
 
                         <TextView
-                            android:id="@+id/stars1"
+                            android:id="@+id/stars2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="⭐⭐⭐⭐" />
@@ -360,14 +361,14 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView11"
+                                android:id="@+id/textView15"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Arnold Prohaska"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/textView12"
+                                android:id="@+id/textView16"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Me gustó su trabajo" />
@@ -380,7 +381,7 @@
                             android:layout_weight="1" />
 
                         <TextView
-                            android:id="@+id/stars1"
+                            android:id="@+id/stars3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="⭐⭐⭐⭐" />
@@ -395,7 +396,7 @@
                         android:background="?android:attr/listDivider" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/textView20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -414,14 +415,14 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView11"
+                                android:id="@+id/textView17"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Stacy Green"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/textView12"
+                                android:id="@+id/textView18"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Pezhimo zerbicio" />
@@ -457,14 +458,14 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView11"
+                                android:id="@+id/textView19"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Arnold Prohaska"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/textView12"
+                                android:id="@+id/textView20"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Me gustó su trabajo" />
@@ -477,7 +478,7 @@
                             android:layout_weight="1" />
 
                         <TextView
-                            android:id="@+id/stars1"
+                            android:id="@+id/stars4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="⭐⭐⭐⭐" />

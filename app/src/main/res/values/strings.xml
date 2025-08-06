@@ -28,4 +28,7 @@
     <string name="reset_password_title">Recuperar Contraseña</string>
     <string name="txt_enviar">Enviar</string>
     <string name="txt_cancelar">Cancelar</string>
+    <string name="registration_failed">Registro Fallido</string>
+    <string name="loading_register_message">Procesando registro</string>
+    <string name="perfil">Perfil</string>
 </resources>
