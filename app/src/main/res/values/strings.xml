@@ -33,4 +33,6 @@
     <string name="registration_failed">Registro Fallido</string>
     <string name="loading_register_message">Procesando registro</string>
     <string name="perfil">Perfil</string>
+    <string name="reset_email_failed">Falló la petición</string>
+    <string name="reset_email_sent">Petición exitosa</string>
 </resources>

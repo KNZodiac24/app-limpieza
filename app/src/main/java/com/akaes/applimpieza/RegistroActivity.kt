@@ -11,11 +11,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.akaes.applimpieza.models.Client
+import com.akaes.applimpieza.models.User
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class RegistroActivity : AppCompatActivity() {
     private lateinit var txtNombre: TextInputEditText
@@ -24,8 +26,9 @@ class RegistroActivity : AppCompatActivity() {
     private lateinit var txtConfirmarContrasena: TextInputEditText
     private lateinit var chbxTerminos: CheckBox
     private lateinit var txtLogin: TextView
-    private lateinit var btnRegistar: Button
+    private lateinit var btnRegistrar: Button
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseFirestore
     private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,21 +43,20 @@ class RegistroActivity : AppCompatActivity() {
         txtConfirmarContrasena = findViewById(R.id.txtConfirmarContrasena)
         chbxTerminos = findViewById(R.id.chbxTerminos)
         txtLogin = findViewById(R.id.txtLogin)
-        btnRegistar = findViewById(R.id.btnRegistrar)
+        btnRegistrar = findViewById(R.id.btnRegistrar)
 
         progressDialog = ProgressDialog(this)
         progressDialog.setMessage(getString(R.string.loading_register_message))
         progressDialog.setCancelable(false)
 
-        // Inicializar Firebase Auth
+        // Inicializar Firebase Auth y Firestore
         auth = Firebase.auth
+        database = FirebaseFirestore.getInstance()
 
-        btnRegistar.setOnClickListener {
+        btnRegistrar.setOnClickListener {
             val nombre = txtNombre.text.toString().trim()
             val email = txtEmail.text.toString().trim()
             val contrasena = txtContrasena.text.toString().trim()
-            val confirmarContrasena = txtConfirmarContrasena.text.toString().trim()
-            val terminosAceptados = chbxTerminos.isChecked
 
             if (!validarCampos())
                 return@setOnClickListener
@@ -128,19 +130,45 @@ class RegistroActivity : AppCompatActivity() {
                     // Registro exitoso
                     Log.d(EXTRA_SIGNUP, "signUpWithEmail:success")
                     val user = auth.currentUser
-                    val profileUpdates = UserProfileChangeRequest.Builder()
-                        .setDisplayName(nombre)
-                        .build()
-                    user?.updateProfile(profileUpdates)
-                        ?.addOnCompleteListener { updateTask ->
-                            if (updateTask.isSuccessful) {
-                                Log.d(UPDATE_PROFILE, "User profile updated.")
-                            } else {
-                                Log.d(ERROR_UPDATE_PROFILE, "User profile update failed")
-                            }
+                    val userId = user?.uid ?: return@addOnCompleteListener
+
+                    // Crear usuario en la colección "users"
+                    val userModel = User(
+                        id = userId,
+                        name = nombre,
+                        email = email,
+                        role = "cliente",
+                        photoUrl = ""
+                    )
+
+                    database.collection("users").document(userId)
+                        .set(userModel)
+                        .addOnSuccessListener {
+                            Log.d(FIRESTORE_TAG, "Usuario guardado correctamente en Firestore")
                         }
+                        .addOnFailureListener { e ->
+                            Log.w(FIRESTORE_TAG, "Error al guardar el usuario en Firestore", e)
+                        }
+
+                    // Crear documento en la colección "clients"
+                    val clientModel = Client(
+                        id = database.collection("clients").document().id,
+                        userId = userId
+                    )
+
+                    database.collection("clients").document(clientModel.id)
+                        .set(clientModel)
+                        .addOnSuccessListener {
+                            Log.d(FIRESTORE_TAG, "Cliente guardado correctamente en Firestore")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w(FIRESTORE_TAG, "Error al guardar el cliente en Firestore", e)
+                        }
+
+                    // Ir a la pantalla principal
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
                     // Error en el registro
                     Log.w(EXTRA_SIGNUP, "signUpWithEmail:failure", task.exception)

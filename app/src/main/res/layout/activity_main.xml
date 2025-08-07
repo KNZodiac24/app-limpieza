@@ -2,20 +2,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:padding="16dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!-- -->
+        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingHorizontal="16dp">
 
             <TextView
@@ -23,837 +23,202 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Servicios"
+                android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/black" />
+                android:textStyle="bold" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contratos"
-                android:backgroundTint="@color/secundario" />
+                android:backgroundTint="@color/secundario"
+                android:text="Contratos" />
         </LinearLayout>
 
+        <!-- Filtros -->
+        <!--        <HorizontalScrollView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            android:overScrollMode="never">-->
 
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center_horizontal"-->
+        <!--                android:gravity="center_horizontal"-->
+        <!--                android:orientation="horizontal">-->
+
+        <!--                <LinearLayout-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginEnd="16dp"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:orientation="vertical">-->
+
+        <!--                    <ImageView-->
+        <!--                        android:id="@+id/iconReparacion"-->
+        <!--                        android:layout_width="60dp"-->
+        <!--                        android:layout_height="60dp"-->
+        <!--                        android:background="@android:color/transparent"-->
+        <!--                        android:src="@drawable/reparacion" />-->
+
+        <!--                    <TextView-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_gravity="center_horizontal"-->
+        <!--                        android:text="Reparación"-->
+        <!--                        android:textColor="#2196F3"-->
+        <!--                        android:textSize="12sp" />-->
+        <!--                </LinearLayout>-->
+
+        <!--                <LinearLayout-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginEnd="16dp"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:orientation="vertical">-->
+
+        <!--                    <ImageView-->
+        <!--                        android:id="@+id/iconLimpieza"-->
+        <!--                        android:layout_width="60dp"-->
+        <!--                        android:layout_height="60dp"-->
+        <!--                        android:background="@android:color/transparent"-->
+        <!--                        android:src="@drawable/limpieza" />-->
+
+        <!--                    <TextView-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_gravity="center_horizontal"-->
+        <!--                        android:text="Limpieza"-->
+        <!--                        android:textColor="#2196F3"-->
+        <!--                        android:textSize="12sp" />-->
+        <!--                </LinearLayout>-->
+
+        <!--                <LinearLayout-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginEnd="16dp"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:orientation="vertical">-->
+
+        <!--                    <ImageView-->
+        <!--                        android:id="@+id/iconDecoracion"-->
+        <!--                        android:layout_width="60dp"-->
+        <!--                        android:layout_height="60dp"-->
+        <!--                        android:background="@android:color/transparent"-->
+        <!--                        android:src="@drawable/decoracion" />-->
+
+        <!--                    <TextView-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_gravity="center_horizontal"-->
+        <!--                        android:text="Decoración"-->
+        <!--                        android:textColor="#2196F3"-->
+        <!--                        android:textSize="12sp" />-->
+        <!--                </LinearLayout>-->
+
+        <!--                <LinearLayout-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginEnd="16dp"-->
+        <!--                    android:gravity="center"-->
+        <!--                    android:orientation="vertical">-->
+
+        <!--                    <ImageView-->
+        <!--                        android:id="@+id/iconInstalacion"-->
+        <!--                        android:layout_width="60dp"-->
+        <!--                        android:layout_height="60dp"-->
+        <!--                        android:background="@android:color/transparent"-->
+        <!--                        android:src="@drawable/instalacion" />-->
+
+        <!--                    <TextView-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_gravity="center_horizontal"-->
+        <!--                        android:text="Instalación"-->
+        <!--                        android:textColor="#2196F3"-->
+        <!--                        android:textSize="12sp" />-->
+        <!--                </LinearLayout>-->
+        <!--            </LinearLayout>-->
+        <!--        </HorizontalScrollView>-->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:overScrollMode="never">
-            <LinearLayout
+            android:overScrollMode="never"
+            android:paddingHorizontal="8dp">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupServices"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal">
-                <LinearLayout
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="8dp"
+                app:chipSpacing="12dp"
+                app:singleLine="true"
+                app:singleSelection="true">
+
+                <!-- Todos -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipAll"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_marginEnd="16dp">
+                    android:layout_marginEnd="4dp"
+                    android:checked="true"
+                    android:text="Todos"
+                    app:chipIconVisible="false" />
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/reparacion"
-                        android:background="@android:color/transparent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Reparación"
-                        android:textSize="12sp"
-                        android:textColor="#2196F3"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-                <LinearLayout
+                <!-- Reparación -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipReparacion"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_marginEnd="16dp">
+                    android:layout_marginEnd="4dp"
+                    android:text="Reparación"
+                    app:chipIcon="@drawable/reparacion"
+                    app:chipIconVisible="true" />
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/limpieza"
-                        android:background="@android:color/transparent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Limpieza"
-                        android:textSize="12sp"
-                        android:textColor="#2196F3"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-                <LinearLayout
+                <!-- Limpieza -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipLimpieza"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_marginEnd="16dp">
+                    android:layout_marginEnd="4dp"
+                    android:text="Limpieza"
+                    app:chipIcon="@drawable/limpieza"
+                    app:chipIconVisible="true" />
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/decoracion"
-                        android:background="@android:color/transparent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Decoración"
-                        android:textSize="12sp"
-                        android:textColor="#2196F3"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-                <LinearLayout
+                <!-- Decoración -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDecoracion"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_marginEnd="16dp">
+                    android:layout_marginEnd="4dp"
+                    android:text="Decoración"
+                    app:chipIcon="@drawable/decoracion"
+                    app:chipIconVisible="true" />
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/instalacion"
-                        android:background="@android:color/transparent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Instalación"
-                        android:textSize="12sp"
-                        android:textColor="#2196F3"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-                <!-- Agrega más filtros igual... -->
-            </LinearLayout>
+                <!-- Instalación -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipInstalacion"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Instalación"
+                    app:chipIcon="@drawable/instalacion"
+                    app:chipIconVisible="true" />
+            </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
 
-        <!-- Tarjetas de profesionales -->
-        <LinearLayout
+        <!-- RecyclerView para los proveedores -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerProveedores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/karla_torres"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Karla Torres"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="19 trabajos completados • 4.8"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/jacob_moran"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Jacob Morán"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="15 trabajos completados • 3.9"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/edison_velez"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/edison_velez"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Edisón Velez"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="72 trabajos completados • 4.2"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/karla_torres"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Karla Torres"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="19 trabajos completados • 4.8"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/jacob_moran"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Jacob Morán"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="15 trabajos completados • 3.9"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/edison_velez"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Edisón Velez"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="72 trabajos completados • 4.2"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/karla_torres"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Karla Torres"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="19 trabajos completados • 4.8"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/jacob_moran"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Jacob Morán"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="15 trabajos completados • 3.9"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/edison_velez"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Edisón Velez"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="72 trabajos completados • 4.2"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/karla_torres"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Karla Torres"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="19 trabajos completados • 4.8"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/jacob_moran"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Jacob Morán"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="15 trabajos completados • 3.9"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="1dp"
-                app:cardCornerRadius="16dp"
-                app:strokeColor="#DDDDDD"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/edison_velez"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Edisón Velez"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="72 trabajos completados • 4.2"
-                                android:textSize="12dp"
-                                android:textColor="#777777" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/star_icon"
-                                android:layout_marginLeft="4dp"
-                                app:tint="#777777" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp" />
     </LinearLayout>
 </ScrollView>

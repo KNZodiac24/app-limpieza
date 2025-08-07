@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var txtEmail: TextInputEditText
@@ -44,16 +45,6 @@ class LoginActivity : AppCompatActivity() {
 
         // Inicializar Firebase Auth
         auth = Firebase.auth
-
-        // Configurar accion al presionar enter en el campo de email
-        txtEmail.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                txtContrasena.requestFocus()
-                true
-            } else {
-                false
-            }
-        }
 
         // Configurar accion al presionar enter en el campo de contrasena
         txtContrasena.setOnEditorActionListener { _, actionId, _ ->
@@ -147,9 +138,8 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Inicio de sesión exitoso
                     Log.d(EXTRA_LOGIN, "signInWithEmail:success")
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra(EXTRA_LOGIN, auth.currentUser!!.email)
-                    startActivity(intent)
+                    val user = auth.currentUser ?: return@addOnCompleteListener
+                    verificarRolDeUsuario(user.uid)
                 } else {
                     // Si el inicio de sesión falla, muestra un mensaje al usuario.
                     Log.w(EXTRA_LOGIN, "signInWithEmail:failure", task.exception)
@@ -159,6 +149,36 @@ class LoginActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+            }
+    }
+
+    private fun verificarRolDeUsuario(userId: String) {
+        val database = FirebaseFirestore.getInstance()
+        database.collection("users").document(userId).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val rol = document.getString("role")
+                    if (rol == "cliente") {
+                        Log.d(EXTRA_LOGIN, "Usuario autorizado como cliente.")
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra(EXTRA_LOGIN, auth.currentUser!!.email)
+                        startActivity(intent)
+                    } else {
+                        Log.e(EXTRA_LOGIN, "Usuario no autorizado como cliente.")
+                        Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_SHORT)
+                            .show()
+                        auth.signOut()
+                    }
+                } else {
+                    Toast.makeText(this, "No se encontraron datos del usuario.", Toast.LENGTH_LONG)
+                        .show()
+                    auth.signOut()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(EXTRA_LOGIN, "Error al obtener el rol del usuario", e)
+                Toast.makeText(this, "Error al validar rol del usuario.", Toast.LENGTH_LONG).show()
+                auth.signOut()
             }
     }
 
@@ -183,13 +203,13 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(
                         this,
-                        "correo enviado",
+                        getString(R.string.reset_email_sent),
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
                     Toast.makeText(
                         this,
-                        "getString(R.string.reset_email_failed)",
+                        getString(R.string.reset_email_failed),
                         Toast.LENGTH_LONG
                     ).show()
                 }
