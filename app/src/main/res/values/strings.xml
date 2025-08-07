@@ -35,4 +35,11 @@
     <string name="perfil">Perfil</string>
     <string name="reset_email_failed">Falló la petición</string>
     <string name="reset_email_sent">Petición exitosa</string>
+    <string name="todos">Todos</string>
+    <string name="servicio_reparacion">Reparación</string>
+    <string name="servicio_limpieza">Limpieza</string>
+    <string name="servicio_decoracion">Decoración</string>
+    <string name="servicio_instalacion">Instalación</string>
+    <string name="servicio">Servicio</string>
+    <string name="contratos">Contratos</string>
 </resources>

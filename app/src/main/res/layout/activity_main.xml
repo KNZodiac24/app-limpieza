@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Servicios"
+                android:text="@string/servicio"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -31,116 +31,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/secundario"
-                android:text="Contratos" />
+                android:text="@string/contratos" />
         </LinearLayout>
 
-        <!-- Filtros -->
-        <!--        <HorizontalScrollView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="16dp"-->
-        <!--            android:overScrollMode="never">-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="center_horizontal"-->
-        <!--                android:gravity="center_horizontal"-->
-        <!--                android:orientation="horizontal">-->
-
-        <!--                <LinearLayout-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_marginEnd="16dp"-->
-        <!--                    android:gravity="center"-->
-        <!--                    android:orientation="vertical">-->
-
-        <!--                    <ImageView-->
-        <!--                        android:id="@+id/iconReparacion"-->
-        <!--                        android:layout_width="60dp"-->
-        <!--                        android:layout_height="60dp"-->
-        <!--                        android:background="@android:color/transparent"-->
-        <!--                        android:src="@drawable/reparacion" />-->
-
-        <!--                    <TextView-->
-        <!--                        android:layout_width="wrap_content"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:layout_gravity="center_horizontal"-->
-        <!--                        android:text="Reparación"-->
-        <!--                        android:textColor="#2196F3"-->
-        <!--                        android:textSize="12sp" />-->
-        <!--                </LinearLayout>-->
-
-        <!--                <LinearLayout-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_marginEnd="16dp"-->
-        <!--                    android:gravity="center"-->
-        <!--                    android:orientation="vertical">-->
-
-        <!--                    <ImageView-->
-        <!--                        android:id="@+id/iconLimpieza"-->
-        <!--                        android:layout_width="60dp"-->
-        <!--                        android:layout_height="60dp"-->
-        <!--                        android:background="@android:color/transparent"-->
-        <!--                        android:src="@drawable/limpieza" />-->
-
-        <!--                    <TextView-->
-        <!--                        android:layout_width="wrap_content"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:layout_gravity="center_horizontal"-->
-        <!--                        android:text="Limpieza"-->
-        <!--                        android:textColor="#2196F3"-->
-        <!--                        android:textSize="12sp" />-->
-        <!--                </LinearLayout>-->
-
-        <!--                <LinearLayout-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_marginEnd="16dp"-->
-        <!--                    android:gravity="center"-->
-        <!--                    android:orientation="vertical">-->
-
-        <!--                    <ImageView-->
-        <!--                        android:id="@+id/iconDecoracion"-->
-        <!--                        android:layout_width="60dp"-->
-        <!--                        android:layout_height="60dp"-->
-        <!--                        android:background="@android:color/transparent"-->
-        <!--                        android:src="@drawable/decoracion" />-->
-
-        <!--                    <TextView-->
-        <!--                        android:layout_width="wrap_content"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:layout_gravity="center_horizontal"-->
-        <!--                        android:text="Decoración"-->
-        <!--                        android:textColor="#2196F3"-->
-        <!--                        android:textSize="12sp" />-->
-        <!--                </LinearLayout>-->
-
-        <!--                <LinearLayout-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:layout_marginEnd="16dp"-->
-        <!--                    android:gravity="center"-->
-        <!--                    android:orientation="vertical">-->
-
-        <!--                    <ImageView-->
-        <!--                        android:id="@+id/iconInstalacion"-->
-        <!--                        android:layout_width="60dp"-->
-        <!--                        android:layout_height="60dp"-->
-        <!--                        android:background="@android:color/transparent"-->
-        <!--                        android:src="@drawable/instalacion" />-->
-
-        <!--                    <TextView-->
-        <!--                        android:layout_width="wrap_content"-->
-        <!--                        android:layout_height="wrap_content"-->
-        <!--                        android:layout_gravity="center_horizontal"-->
-        <!--                        android:text="Instalación"-->
-        <!--                        android:textColor="#2196F3"-->
-        <!--                        android:textSize="12sp" />-->
-        <!--                </LinearLayout>-->
-        <!--            </LinearLayout>-->
-        <!--        </HorizontalScrollView>-->
+        <!-- Chips para las categorias de servicios -->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -165,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:checked="true"
-                    android:text="Todos"
+                    android:text="@string/todos"
                     app:chipIconVisible="false" />
 
                 <!-- Reparación -->
@@ -175,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:text="Reparación"
+                    android:text="@string/servicio_reparacion"
                     app:chipIcon="@drawable/reparacion"
                     app:chipIconVisible="true" />
 
@@ -186,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:text="Limpieza"
+                    android:text="@string/servicio_limpieza"
                     app:chipIcon="@drawable/limpieza"
                     app:chipIconVisible="true" />
 
@@ -197,7 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:text="Decoración"
+                    android:text="@string/servicio_decoracion"
                     app:chipIcon="@drawable/decoracion"
                     app:chipIconVisible="true" />
 
@@ -207,7 +101,7 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Instalación"
+                    android:text="@string/servicio_instalacion"
                     app:chipIcon="@drawable/instalacion"
                     app:chipIconVisible="true" />
             </com.google.android.material.chip.ChipGroup>
