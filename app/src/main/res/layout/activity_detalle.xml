@@ -93,6 +93,18 @@
             android:drawablePadding="8dp"
             android:text="@string/ir_a_la_galer_a_de_trabajos"
             android:textColor="@color/primario" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/boton_borde_azul"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:drawableStart="@drawable/ic_gallery"
+            android:drawablePadding="8dp"
+            android:text="@string/Chat"
+            android:textColor="@color/primario" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
