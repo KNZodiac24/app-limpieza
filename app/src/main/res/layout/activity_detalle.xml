@@ -50,13 +50,49 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="300dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+    <LinearLayout
+        android:id="@+id/layoutBotonesAcciones"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/viewPager2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnActualizarPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:drawableStart="@drawable/ic_wrench"
+            android:drawablePadding="8dp"
+            android:tint="@color/secundario"
+            android:background="@drawable/boton_borde_azul"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="@string/actualizar_perfil"
+            android:textColor="@color/primario" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGaleriaTrabajos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/boton_borde_azul"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:drawableStart="@drawable/ic_gallery"
+            android:drawablePadding="8dp"
+            android:text="@string/ir_a_la_galer_a_de_trabajos"
+            android:textColor="@color/primario" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

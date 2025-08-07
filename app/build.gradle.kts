@@ -46,8 +46,8 @@ dependencies {
     // Firebase individual libraries
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-storage-ktx") // ✅ Este es el correcto
-    implementation("com.github.bumptech.glide:glide:4.16.0") // Usa la última versión
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     // Para Cloudinary
     implementation ("com.cloudinary:cloudinary-android:2.8.0")
