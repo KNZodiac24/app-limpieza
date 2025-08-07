@@ -24,8 +24,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var btnBackToProfile : Button
     private lateinit var txtNombreDeChat: TextView
     // VARIABLES CON VALORES TEMPORALES DE PRUEBA, CAMBIAR VALORES CUANDO SE TERMINE EL LOGIN
-    private var currentUserId: String = "angel"
-    private var receiverId: String = "eliath"
+    private var currentUserId: String = intent.getStringExtra("userId").toString()
+    private var receiverId: String = intent.getStringExtra("providerid").toString()
 
     //@SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {

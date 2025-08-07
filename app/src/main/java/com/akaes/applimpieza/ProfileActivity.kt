@@ -64,7 +64,8 @@ class ProfileActivity : AppCompatActivity() {
             }
             crearContrato(clientId, providerId)
             var intent = Intent(this, ChatActivity::class.java)
-            // intent.putExtras() // Pasarle el currentUserId y el id de la otra persona con la que chatea
+            intent.putExtra("providerId", intent.getStringExtra("providerId"))
+            intent.putExtra("userId", intent.getStringExtra("userId")) // Pasarle el currentUserId y el id de la otra persona con la que chatea
             startActivity(intent)
         }
     }
