@@ -44,4 +44,8 @@
     <string name="contratos">Contratos</string>
     <string name="galeria">Galería</string>
     <string name="resenas">Reseñas</string>
+    <string name="txtCreateAccount">¿No tienes cuenta todavía? Regístrate</string>
+    <string name="txtContinuar">Continuar</string>
+    <string name="titleAddImage">Añade fotos sobre tus servicios</string>
+    <string name="descriptionAddTitle">Demuestra que realizas un excelente trabajo</string>
 </resources>
