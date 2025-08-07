@@ -1,5 +1,6 @@
 package com.akaes.applimpieza
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -32,35 +33,20 @@ class MainActivity : AppCompatActivity() {
 
         // RecyclerView y Adapter
         recyclerView = findViewById(R.id.recyclerProveedores)
-        providerAdapter = ProviderAdapter(providerList)
+        providerAdapter = ProviderAdapter(providerList) { provider ->
+            val intent = Intent(this, ProfileActivity::class.java).apply {
+                putExtra("providerId", provider.id)
+                putExtra("userId", provider.userId)
+            }
+            startActivity(intent)
+        }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = providerAdapter
 
         // Inicializar variables
         chips = findViewById(R.id.chipGroupServices)
-//        btnReparacion = findViewById(R.id.iconReparacion)
-//        btnLimpieza = findViewById(R.id.iconLimpieza)
-//        btnDecoracion = findViewById(R.id.iconDecoracion)
-//        btnInstalacion = findViewById(R.id.iconInstalacion)
 
         obtenerProveedoresPorCategoria(null)
-
-        // Listener para los iconos de categorias
-//        btnReparacion.setOnClickListener {
-//            obtenerProveedoresPorCategoria("Reparacion")
-//        }
-//
-//        btnLimpieza.setOnClickListener {
-//            obtenerProveedoresPorCategoria("Limpieza")
-//        }
-//
-//        btnDecoracion.setOnClickListener {
-//            obtenerProveedoresPorCategoria("Decoracion")
-//        }
-//
-//        btnInstalacion.setOnClickListener {
-//            obtenerProveedoresPorCategoria("Instalacion")
-//        }
 
         chips.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
@@ -71,15 +57,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.chipInstalacion -> obtenerProveedoresPorCategoria("Instalacion")
             }
         }
-
-//        val cardEdison = findViewById<MaterialCardView>(R.id.edison_velez)
-//
-//        cardEdison.setOnClickListener {
-//            val intent = Intent(this, ProfileActivity::class.java)
-//            startActivity(intent)
-//        }
-
-
     }
 
     private fun obtenerProveedoresPorCategoria(categoria: String?) {

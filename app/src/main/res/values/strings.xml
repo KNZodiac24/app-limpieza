@@ -42,4 +42,6 @@
     <string name="servicio_instalacion">Instalación</string>
     <string name="servicio">Servicio</string>
     <string name="contratos">Contratos</string>
+    <string name="galeria">Galería</string>
+    <string name="resenas">Reseñas</string>
 </resources>

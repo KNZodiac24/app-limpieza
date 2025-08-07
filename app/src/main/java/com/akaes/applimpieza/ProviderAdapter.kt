@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.akaes.applimpieza.models.Provider
 import com.bumptech.glide.Glide
 
-class ProviderAdapter(private val providers: List<Provider>) : RecyclerView.Adapter<ProviderAdapter.ProviderViewHolder>() {
+class ProviderAdapter(
+    private val providers: List<Provider>,
+    private val onClick: (Provider) -> Unit
+) :
+    RecyclerView.Adapter<ProviderAdapter.ProviderViewHolder>() {
 
     // Mapas para nombre y foto por userId
     val userNameMap = mutableMapOf<String, String>()
@@ -40,6 +44,10 @@ class ProviderAdapter(private val providers: List<Provider>) : RecyclerView.Adap
             .load(url.ifEmpty { R.drawable.ic_launcher_foreground })
             .circleCrop()
             .into(holder.imagen)
+
+        holder.itemView.setOnClickListener {
+            onClick(provider)
+        }
     }
 
     override fun getItemCount(): Int = providers.size
