@@ -1,6 +1,8 @@
 package com.akaes.applimpieza
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,7 +14,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 class DetalleActivity : AppCompatActivity() {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
-
+    private lateinit var buttonActualizarPerfil: Button
+    private lateinit var buttonIrGaleria: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,8 @@ class DetalleActivity : AppCompatActivity() {
 
         tabLayout = findViewById(R.id.tabLayout)
         viewPager2 = findViewById(R.id.viewPager2)
+        buttonActualizarPerfil = findViewById(R.id.btnActualizarPerfil)
+        buttonIrGaleria = findViewById(R.id.btnGaleriaTrabajos)
         val adapter = ViewPagerAdapter(this)
         viewPager2.adapter = adapter
 
@@ -42,5 +47,14 @@ class DetalleActivity : AppCompatActivity() {
                 }
             }
         }.attach()
+        buttonActualizarPerfil.setOnClickListener {
+            val intent = Intent(this, SetupActivity::class.java)
+            startActivity(intent)
+        }
+        buttonIrGaleria.setOnClickListener {
+            val intent = Intent(this, ProviderGalleryActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }

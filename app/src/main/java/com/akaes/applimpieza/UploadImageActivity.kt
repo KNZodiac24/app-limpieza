@@ -9,7 +9,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -69,7 +71,13 @@ class UploadImageActivity : AppCompatActivity() {
             )
             selectedImages.add(imageUri)
             displaySelectedImages()
-            Toast.makeText(this, "Foto tomada exitosamente", Toast.LENGTH_SHORT).show()
+
+            // Mostrar diálogo solo para provider_gallery
+            if (uploadContext == "provider_gallery") {
+                showGalleryItemDialog()
+            } else {
+                Toast.makeText(this, "Foto tomada exitosamente", Toast.LENGTH_SHORT).show()
+            }
         } else {
             Toast.makeText(this, "Error al tomar la foto", Toast.LENGTH_SHORT).show()
         }
@@ -82,7 +90,13 @@ class UploadImageActivity : AppCompatActivity() {
         uri?.let {
             selectedImages.add(it)
             displaySelectedImages()
-            Toast.makeText(this, "Imagen seleccionada exitosamente", Toast.LENGTH_SHORT).show()
+
+            // Mostrar diálogo solo para provider_gallery
+            if (uploadContext == "provider_gallery") {
+                showGalleryItemDialog()
+            } else {
+                Toast.makeText(this, "Imagen seleccionada exitosamente", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -95,7 +109,13 @@ class UploadImageActivity : AppCompatActivity() {
         }
         if (uris?.isNotEmpty() == true) {
             displaySelectedImages()
-            Toast.makeText(this, "${uris.size} imágenes seleccionadas", Toast.LENGTH_SHORT).show()
+
+            // Mostrar diálogo solo para provider_gallery
+            if (uploadContext == "provider_gallery") {
+                showGalleryItemDialog()
+            } else {
+                Toast.makeText(this, "${uris.size} imágenes seleccionadas", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -155,6 +175,13 @@ class UploadImageActivity : AppCompatActivity() {
 
         binding.btnContinuar.setOnClickListener {
             if (selectedImages.isNotEmpty()) {
+                // Para provider_gallery, verificar que se hayan llenado los campos
+                if (uploadContext == "provider_gallery") {
+                    if (serviceType.isEmpty() || description.isEmpty()) {
+                        Toast.makeText(this, "Complete el tipo de servicio y descripción", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                }
                 uploadImagesToCloudinary()
             } else {
                 if (uploadContext == "profile") {
@@ -165,6 +192,79 @@ class UploadImageActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showGalleryItemDialog() {
+        val serviceTypes = arrayOf("Reparacion", "Limpieza", "Decoracion", "Instalacion")
+        var selectedServiceType = ""
+
+        // Si ya hay un tipo de servicio seleccionado, encontrar su índice
+        val preselectedIndex = if (serviceType.isNotEmpty()) {
+            serviceTypes.indexOf(serviceType)
+        } else -1
+
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_gallery_item, null)
+        val etDescriptionDialog = dialogView.findViewById<EditText>(R.id.etDescriptionDialog)
+
+        // Pre-llenar descripción si existe
+        etDescriptionDialog.setText(description)
+
+        // Reemplazar el EditText del tipo de servicio con un selector
+        val etServiceTypeDialog = dialogView.findViewById<EditText>(R.id.etServiceTypeDialog)
+        etServiceTypeDialog.isFocusable = false
+        etServiceTypeDialog.isClickable = true
+
+        // Si hay un tipo preseleccionado, mostrarlo
+        if (preselectedIndex >= 0) {
+            etServiceTypeDialog.setText(serviceTypes[preselectedIndex])
+            selectedServiceType = serviceTypes[preselectedIndex]
+        } else {
+            etServiceTypeDialog.hint = "Selecciona un tipo de servicio"
+        }
+
+        etServiceTypeDialog.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Selecciona el Tipo de Servicio")
+                .setSingleChoiceItems(serviceTypes, preselectedIndex) { dialog, which ->
+                    selectedServiceType = serviceTypes[which]
+                    etServiceTypeDialog.setText(selectedServiceType)
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancelar", null)
+                .show()
+        }
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Detalles del Trabajo")
+            .setView(dialogView)
+            .setPositiveButton("Guardar") { _, _ ->
+                val inputDescription = etDescriptionDialog.text.toString().trim()
+
+                if (selectedServiceType.isEmpty()) {
+                    Toast.makeText(this, "Selecciona un tipo de servicio", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                if (inputDescription.isEmpty()) {
+                    Toast.makeText(this, "La descripción es obligatoria", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                // Guardar los valores CORRECTAMENTE
+                serviceType = selectedServiceType  // Tipo de servicio correcto
+                description = inputDescription     // Descripción correcta
+
+                Toast.makeText(this, "Detalles guardados. Presiona 'Agregar a Galería' para subir.", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("Cancelar") { _, _ ->
+                // Si cancela, remover las imágenes seleccionadas
+                selectedImages.clear()
+                displaySelectedImages()
+            }
+            .setCancelable(false)
+            .create()
+
+        dialog.show()
     }
 
     private fun uploadImagesToCloudinary() {
@@ -314,7 +414,7 @@ class UploadImageActivity : AppCompatActivity() {
                                 // Una vez que todas las imágenes están subidas, crea UN SOLO ítem de galería en Firestore
                                 val galleryResult = firebaseRepository.addPhotosToProviderGallery(
                                     providerId,
-                                    photoUrls, // Pasa la lista COMPLETA de URLs
+                                    photoUrls,
                                     description,
                                     serviceType
                                 )
@@ -378,7 +478,7 @@ class UploadImageActivity : AppCompatActivity() {
                     onSuccess = { photoUrl ->
                         // Agregar a provider_gallery
                         val galleryResult = firebaseRepository.addPhotosToProviderGallery(
-                            providerId, photoUrls= listOf(photoUrl), serviceType, description,
+                            providerId, photoUrls= listOf(photoUrl), description, serviceType,
                         )
                         galleryResult.fold(
                             onSuccess = {
@@ -435,7 +535,7 @@ class UploadImageActivity : AppCompatActivity() {
             "provider_gallery" -> {
                 // Aquí debes crear un Intent hacia la actividad que muestra la galería del proveedor
                 // Por ejemplo: Intent(this, ProviderGalleryActivity::class.java)
-                Intent(this, ProviderGalleryActivity::class.java).apply {
+                Intent(this, DetalleActivity::class.java).apply {
                     putStringArrayListExtra("uploaded_image_urls", ArrayList(uploadedImageUrls))
                     putExtra("upload_context", uploadContext)
                     putExtra(EXTRA_SERVICE_TYPE, serviceType)
@@ -443,7 +543,7 @@ class UploadImageActivity : AppCompatActivity() {
                 }
             }
             else -> {
-                Intent(this, ProviderGalleryActivity::class.java).apply {
+                Intent(this, DetalleActivity::class.java).apply {
                     putStringArrayListExtra("uploaded_image_urls", ArrayList(uploadedImageUrls))
                     putExtra("upload_context", uploadContext)
                     if (uploadContext == "review") {
@@ -663,6 +763,8 @@ class UploadImageActivity : AppCompatActivity() {
     fun clearSelectedImages() {
         selectedImages.clear()
         uploadedImageUrls.clear()
+        serviceType = ""
+        description = ""
         binding.ivAddImage.setImageResource(R.drawable.ic_camera_small)
     }
 }

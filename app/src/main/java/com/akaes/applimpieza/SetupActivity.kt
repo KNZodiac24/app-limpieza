@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat
 class SetupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySetupBinding
     private val repository = FirebaseRepository()
-
+    private val etDescription: String = ""
     private var userId: String = ""
     private var selectedImageUri: Uri? = null
     private var selectedServices: MutableSet<String> = mutableSetOf()
@@ -77,7 +78,7 @@ class SetupActivity : AppCompatActivity() {
         }
 
         // ✨ Inicializar Cloudinary ANTES de todo
-        println("DEBUG: 🚀 Inicializando Cloudinary en SetupActivity...")
+        Log.d("","DEBUG: 🚀 Inicializando Cloudinary en SetupActivity...")
         repository.initializeCloudinary(this)
 
         // Obtener userId del intent
@@ -92,6 +93,7 @@ class SetupActivity : AppCompatActivity() {
         setupUI()
         setupListeners()
         loadUserInfo()
+        loadProviderInfo()
     }
 
     private fun setupUI() {
@@ -117,6 +119,22 @@ class SetupActivity : AppCompatActivity() {
             completeProviderProfile()
         }
     }
+    private fun loadProviderInfo() {
+        lifecycleScope.launch {
+            repository.getProviderByUserId(userId).onSuccess { provider ->
+                provider?.let {
+                    binding.etCelular.setText(it.phone)
+                    binding.etDescripcion.setText(it.description)
+                    selectedServices.clear()
+                    selectedServices.addAll(it.serviceTypes)
+                    updateChipAppearance()
+                }
+            }.onFailure {
+                showError("Error al cargar datos de proveedor: ${it.message}")
+            }
+        }
+    }
+
 
     private fun showImagePickerDialog() {
         val options = arrayOf("Tomar foto", "Seleccionar de galería", "Cancelar")
@@ -283,23 +301,23 @@ class SetupActivity : AppCompatActivity() {
                         return@launch
                     }
 
-                    println("DEBUG: Intentando subir imagen con URI: $selectedImageUri")
+                    Log.d("DEBUG:" ,"Intentando subir imagen con URI: $selectedImageUri")
 
                     repository.uploadProfilePhoto(userId, selectedImageUri!!)
                         .onSuccess { url ->
                             newPhotoUrl = url
-                            println("DEBUG: Imagen subida exitosamente. URL: $url")
+                            Log.d("DEBUG:", "Imagen subida exitosamente. URL: $url")
 
                             // Actualizar URL de foto en el documento de usuario
                             repository.updateUserPhoto(userId, url)
                                 .onFailure { exception ->
-                                    println("DEBUG: Error actualizando foto en usuario: ${exception.message}")
+                                    Log.d("DEBUG:","Error actualizando foto en usuario: ${exception.message}")
                                     showError("Advertencia: Error al actualizar foto en perfil de usuario")
                                     // No detener el proceso por esto
                                 }
                         }
                         .onFailure { exception ->
-                            println("DEBUG: Error subiendo imagen: ${exception.message}")
+                            Log.d("DEBUG:" ,"Error subiendo imagen: ${exception.message}")
                             photoUploadSuccess = false
 
                             // Mostrar error específico pero continuar sin imagen
@@ -313,7 +331,7 @@ class SetupActivity : AppCompatActivity() {
                 }
 
                 // 2. Actualizar información del proveedor (siempre continuar)
-                println("DEBUG: Actualizando información del proveedor...")
+                Log.d("DEBUG:", "Actualizando información del proveedor...")
 
                 repository.updateProviderInfo(
                     userId = userId,

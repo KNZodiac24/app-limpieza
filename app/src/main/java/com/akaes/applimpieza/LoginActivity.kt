@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Log.d(EXTRA_LOGIN, "signInWithEmail:success")
                     //Si pasa validación de datos requeridos, ir a pantalla principal
-                    val intencion = Intent(this, ProviderGalleryActivity::class.java)
+                    val intencion = Intent(this, DetalleActivity::class.java)
                     intencion.putExtra(EXTRA_LOGIN, auth.currentUser!!.email)
                     startActivity(intencion)
                     //finish()
