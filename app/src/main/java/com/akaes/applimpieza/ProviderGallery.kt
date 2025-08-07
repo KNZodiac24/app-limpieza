@@ -60,7 +60,9 @@ class ProviderGalleryActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.btnAddWorkPhoto.setOnClickListener {
-            showAddPhotoDialog()
+            Intent(this, UploadImageActivity::class.java).apply {
+                startActivity(this)
+            }
         }
     }
 
@@ -131,7 +133,7 @@ class ProviderGalleryActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAddPhotoDialog() {
+ /*   private fun showAddPhotoDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_gallery_item, null)
         val etServiceType = dialogView.findViewById<EditText>(R.id.etServiceTypeDialog)
         val etDescription = dialogView.findViewById<EditText>(R.id.etDescriptionDialog)
@@ -160,7 +162,7 @@ class ProviderGalleryActivity : AppCompatActivity() {
 
         dialog.show()
     }
-
+*/
     private fun validateDialogInput(serviceType: String, description: String): Boolean {
         return when {
             serviceType.isEmpty() -> {

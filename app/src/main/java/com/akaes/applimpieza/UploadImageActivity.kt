@@ -142,6 +142,8 @@ class UploadImageActivity : AppCompatActivity() {
 
         setupClickListeners()
         updateUIForContext()
+        // Actualizar estado inicial de los botones
+        updateButtonStates()
     }
 
     private fun getIntentData() {
@@ -174,24 +176,41 @@ class UploadImageActivity : AppCompatActivity() {
         }
 
         binding.btnContinuar.setOnClickListener {
-            if (selectedImages.isNotEmpty()) {
-                // Para provider_gallery, verificar que se hayan llenado los campos
-                if (uploadContext == "provider_gallery") {
-                    if (serviceType.isEmpty() || description.isEmpty()) {
-                        Toast.makeText(this, "Complete el tipo de servicio y descripción", Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
-                    }
-                }
-                uploadImagesToCloudinary()
-            } else {
-                if (uploadContext == "profile") {
-                    Toast.makeText(this, "Selecciona al menos una foto de perfil", Toast.LENGTH_SHORT).show()
-                } else {
-                    // Para provider_gallery, permitir continuar sin imágenes
-                    navigateToNextScreen()
+            // Verificar si hay imágenes seleccionadas
+            if (selectedImages.isEmpty()) {
+                Toast.makeText(this, "Ninguna imagen seleccionada", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Para provider_gallery, verificar que se hayan llenado los campos
+            if (uploadContext == "provider_gallery") {
+                if (serviceType.isEmpty() || description.isEmpty()) {
+                    Toast.makeText(this, "Complete el tipo de servicio y descripción", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
                 }
             }
+            uploadImagesToCloudinary()
         }
+
+        // Agregar listener para el botón saltar
+        binding.btnSaltar.setOnClickListener {
+            navigateToNextScreen()
+        }
+    }
+
+    // Nueva función para actualizar el estado de los botones
+    private fun updateButtonStates() {
+        val hasImages = selectedImages.isNotEmpty()
+
+        // El botón continuar solo está habilitado si hay imágenes
+        binding.btnContinuar.isEnabled = hasImages
+
+        // Cambiar la apariencia visual del botón si es necesario
+        binding.btnContinuar.alpha = if (hasImages) 1.0f else 0.5f
+
+        // El botón saltar siempre está visible y habilitado
+        binding.btnSaltar.visibility = View.VISIBLE
+        binding.btnSaltar.isEnabled = true
     }
 
     private fun showGalleryItemDialog() {
@@ -254,6 +273,9 @@ class UploadImageActivity : AppCompatActivity() {
                 serviceType = selectedServiceType  // Tipo de servicio correcto
                 description = inputDescription     // Descripción correcta
 
+                // Actualizar estado de botones después de guardar detalles
+                updateButtonStates()
+
                 Toast.makeText(this, "Detalles guardados. Presiona 'Agregar a Galería' para subir.", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Cancelar") { _, _ ->
@@ -269,7 +291,7 @@ class UploadImageActivity : AppCompatActivity() {
 
     private fun uploadImagesToCloudinary() {
         if (selectedImages.isEmpty()) {
-            navigateToNextScreen()
+            Toast.makeText(this, "Ninguna imagen seleccionada", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -277,6 +299,7 @@ class UploadImageActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         binding.btnContinuar.isEnabled = false
         binding.btnContinuar.text = "Subiendo imágenes..."
+        binding.btnSaltar.visibility = View.GONE // Ocultar saltar durante la subida
 
         val userId = firebaseRepository.getCurrentUserId()
         if (userId.isNullOrEmpty()) {
@@ -525,8 +548,9 @@ class UploadImageActivity : AppCompatActivity() {
 
     private fun resetUploadState() {
         binding.progressBar.visibility = View.GONE
-        binding.btnContinuar.isEnabled = true
+        binding.btnSaltar.visibility = View.VISIBLE
         updateUIForContext() // Restaurar texto original del botón
+        updateButtonStates() // Actualizar estado de botones
     }
 
     private fun navigateToNextScreen() {
@@ -744,11 +768,14 @@ class UploadImageActivity : AppCompatActivity() {
             runOnUiThread {
                 Toast.makeText(this, "${selectedImages.size} imagen(es) seleccionada(s)", Toast.LENGTH_SHORT).show()
                 // Cambiar el ícono para mostrar que hay imágenes seleccionadas
-                binding.ivAddImage.setImageResource(R.drawable.ic_image_gallery)
+                binding.ivAddImage.setImageResource(R.drawable.confirmar_btn)
             }
         } else {
             binding.ivAddImage.setImageResource(R.drawable.ic_camera_small)
         }
+
+        // Actualizar estado de botones cada vez que cambian las imágenes seleccionadas
+        updateButtonStates()
     }
 
     // Métodos utilitarios
@@ -766,5 +793,7 @@ class UploadImageActivity : AppCompatActivity() {
         serviceType = ""
         description = ""
         binding.ivAddImage.setImageResource(R.drawable.ic_camera_small)
+        // Actualizar estado de botones después de limpiar
+        updateButtonStates()
     }
 }
